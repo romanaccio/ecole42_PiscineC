@@ -1,0 +1,6 @@
+Credentials cache: API:31E8AFF9-AD4A-4FCB-8307-1D8D1F005DDB
+        Principal: ajouanna@42.FR
+
+  Issued                Expires               Principal
+Aug 29 17:44:15 2016  Sep  5 17:44:15 2016  krbtgt/42.FR@42.FR
+Aug 29 18:35:01 2016  Sep  5 17:44:15 2016  host/vgs-fn1.42.fr@42.FR
