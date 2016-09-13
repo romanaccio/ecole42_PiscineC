@@ -1,0 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_rev_params.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajouanna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/06 18:49:34 by ajouanna          #+#    #+#             */
+/*   Updated: 2016/09/06 20:19:34 by ajouanna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+
+int			ft_putchar(char c);
+
+int			ma_strcmp(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	while ((*(s1 + i) != 0) && (*(s2 + i) != 0) && (*(s1 + i) == *(s2 + i)))
+	{
+		i++;
+	}
+	return (*(s1 + i) - *(s2 + i));
+}
+
+void		ma_putstr(char *str)
+{
+	int i;
+
+	i = 0;
+	while (*(str + i) != 0)
+	{
+		ft_putchar(*(str + i));
+		i++;
+	}
+}
+
+int			main(int argc, char **argv)
+{
+	int j;
+	int tab[255];
+	int echange;
+	int fin_tri;
+
+	j = 0;
+	while (j < argc - 1)
+	{
+		tab[j] = j + 1;
+		j++;
+	}
+	fin_tri = 0;
+	while (fin_tri == 0)
+	{
+		fin_tri = 1;
+		j = 0;
+		while (j < (argc - 2))
+		{
+			if (ma_strcmp(argv[tab[j]], argv[tab[j + 1]]) > 0)
+			{
+				echange = tab[j];
+				tab[j] = tab[j + 1];
+				tab[j + 1] = echange;
+				fin_tri = 0;
+			}
+			j++;
+		}
+	}
+	j = 0;
+	while (j < (argc - 1))
+	{
+		ma_putstr(argv[tab[j]]);
+		ft_putchar('\n');
+		j++;
+	}
+}

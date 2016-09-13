@@ -1,0 +1,94 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajouanna <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/05 12:32:48 by ajouanna          #+#    #+#             */
+/*   Updated: 2016/09/05 16:29:08 by ajouanna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+
+int		power10(int power)
+{
+	int res;
+
+	if (power < 0)
+		return (0);
+	if (power == 0)
+		return (1);
+	res = 10 * power10(power - 1);
+	return (res);
+}
+
+int		lenstr(char *str)
+{
+	int len;
+
+	len = 0;
+	while (*(str + len) != 0)
+	{
+		len++;
+	}
+	return (len);
+}
+
+int		trimchar(char *str, int *psign)
+{
+	int i;
+	int len;
+
+	i = 0;
+	*psign = 1;
+	while (*(str + i) != 0)
+	{
+		if ((*(str + i) == ' ') || (*(str + i) == '\t'))
+			i++;
+		else
+			break ;
+	}
+	str = str + i;
+	if (str > 0)
+	{
+		if (*str == '-')
+		{
+			*psign = -1;
+			str += 1;
+		}
+	}
+	len = lenstr(str);
+	printf("trimchar : chaine %s, longueur =%d, signe =%d\n", str, len, *psign); 
+	return (len);
+}
+
+int		ft_atoi(char *str)
+{
+	int		result;
+	int		len;
+	char	c;
+	int		sign;
+	int		i;
+
+	printf("ft_atoi :avant trim chaine=%s\n", str); 
+	len = trimchar(str, &sign);
+	printf("ft_atoi : apres trim chaine=%s\n", str); 
+	result = 0;
+	i = 0;
+	while (i < len)
+	{
+		c = *(str + i);
+		if ((c < '0') || (c > '9'))
+		{
+			break ;
+		}
+		else
+		{
+			result += ((c - '0') * power10(len - i - 1));
+			i++;
+		}
+	}
+	return (result * sign);
+}
