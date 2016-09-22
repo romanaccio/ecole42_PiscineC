@@ -1,0 +1,115 @@
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+
+typedef struct s_brain
+{
+	char op;
+	void (*f)(char *, int *, char *, int *);
+} t_brain;
+
+void	fsup(char *pstr, int *poff, char *pt_brain, int *poffsetbrain)
+{
+	(void)pt_brain;
+	(void)pstr;
+	(*poff)++;
+	(*poffsetbrain)++;
+}
+
+void	finf(char *pstr, int *poff, char *pt_brain, int *poffsetbrain)
+{
+	(void)pt_brain;
+	(void)pstr;
+	(*poff)++;
+	(*poffsetbrain)--;
+}
+
+void	fplus(char *pstr, int *poff, char *pt_brain, int *poffsetbrain)
+{
+	(void)pstr;
+	(*poff)++;
+	pt_brain[*poffsetbrain]++;
+}
+
+void	fminus(char *pstr, int *poff, char *pt_brain, int *poffsetbrain)
+{
+	(void)pstr;
+	(*poff)++;
+	pt_brain[*poffsetbrain]--;
+}
+
+void	fpoint(char *pstr, int *poff, char *pt_brain, int *poffsetbrain)
+{
+	(void)pstr;
+	(*poff)++;
+	write(1, pt_brain + *poffsetbrain, 1);
+}
+
+void	fopenbrac(char *pstr, int *poff, char *pt_brain, int *poffsetbrain)
+{
+	if (pt_brain[*poffsetbrain] == 0)
+	{
+		while (*pstr && pstr[*poff] != ']')
+			(*poff)++;
+	}
+	else
+		(*poff)++;
+}
+
+void	fclosebrac(char *pstr, int *poff, char *pt_brain, int *poffsetbrain)
+{
+	if (pt_brain[*poffsetbrain] != 0)
+	{
+		while (*pstr && pstr[*poff] != '[' && (*poff != 0))
+			(*poff)--;
+	}
+	else
+		(*poff)++;
+}
+
+void brainfuck(char *str)
+{
+	char	brain[4096];
+	int	offset;
+	int	brain_offset;
+	int	i;
+	t_brain tab[7];
+
+	tab[0].op = '+';
+	tab[0].f = &fplus;
+	tab[1].op = '-';
+	tab[1].f = &fminus;
+	tab[2].op = '>';
+	tab[2].f = &fsup;
+	tab[3].op = '<';
+	tab[3].f = &finf;
+	tab[4].op = '.';
+	tab[4].f = &fpoint;
+	tab[5].op = '[';
+	tab[5].f = &fopenbrac;
+	tab[6].op = ']';
+	tab[6].f = &fclosebrac;
+
+
+	i = -1;
+	while (++i < 4096)
+		brain[i] = 0;
+	offset = 0;
+	brain_offset = 0;
+	while (str[offset])
+	{
+		i = -1;
+		while (++i < 7)
+			if (*str == tab[i].op)
+				tab[i].f(str, &offset, brain, &brain_offset);
+	}
+}
+
+int	main(int ac, char **av)
+{
+	if (ac != 2)
+		return (1);
+	brainfuck(av[1]);
+	printf("\n");
+	return (0);
+}
