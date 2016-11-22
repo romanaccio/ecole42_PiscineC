@@ -17,8 +17,8 @@
 /*
  ** algo d'Euclide
  ** si un des nombres est nul, l'autre est le PGCD
- ** sinon il faut soustraire le plus petit du plus grand
- ** et laisser le plus petit inchangé.
+ ** sinon il faut prendre le reste de la division entiere du plus grand
+ ** par le plus petit et laisser le plus petit inchangé.
  ** Puis, recommencer ainsi avec la nouvelle paire jusqu'à ce que un des deux
  **nombres soit nul. Dans ce cas, l'autre nombre est le PGCD.
 */
